@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inventra Documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Unreal Engine Inventra Plugin Documentation"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+      line-height: 1.6;
+      color: #111827;
+      background: #f5f7fa;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+      background: #e5e7eb;
+      padding: 0.15em 0.35em;
+      border-radius: 4px;
+      font-size: 0.95em;
+    }
+
+    pre {
+      background: #111827;
+      color: #e5e7eb;
+      padding: 1rem 1.2rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+    }
+
+    header {
+      background: radial-gradient(circle at top left, #4f46e5, #1f2937);
+      color: #f9fafb;
+      padding: 2.2rem 1.4rem 1.6rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      background: rgba(15, 23, 42, 0.45);
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #34d399;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 3vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      max-width: 42rem;
+      color: #e5e7eb;
+      opacity: 0.95;
+    }
+
+    .hero-buttons {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out,
+      background 0.1s ease-out, border-color 0.1s ease-out;
+    }
+
+    .btn-primary {
+      background: #f9fafb;
+      color: #111827;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(15, 23, 42, 0.4);
+      text-decoration: none;
+    }
+
+    .btn-ghost {
+      border-color: rgba(249, 250, 251, 0.35);
+      color: #e5e7eb;
+      background: transparent;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 0.35);
+      text-decoration: none;
+    }
+
+    nav {
+      margin-top: 1.4rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.45);
+      padding-top: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    #nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.4rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    #nav a {
+      opacity: 0.9;
+    }
+
+    #nav a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 2rem 1.4rem 3rem;
+    }
+
+    section {
+      margin-bottom: 2.2rem;
+      padding-bottom: 1.6rem;
+      border-bottom: 1px solid #e0e7ff;
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-meta {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 0.6rem;
+    }
+
+    .markdown-body img {
+      max-width: 100%;
+    }
+
+    .markdown-body ul,
+    .markdown-body ol {
+      padding-left: 1.3rem;
+    }
+
+    footer {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      text-align: center;
+      padding: 1.2rem 1.4rem 1.8rem;
+      border-top: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .error {
+      color: #b91c1c;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 1.8rem 1.1rem 1.4rem;
+      }
+
+      main {
+        padding: 1.6rem 1.1rem 2.2rem;
+      }
+    }
+
+	@media (prefers-color-scheme: dark) {
+
+	  body {
+		color: #e5e7eb;
+		background: #0f172a;
+	  }
+
+	  header {
+		background: radial-gradient(circle at top left, #1e1b4b, #0f172a);
+		color: #f9fafb;
+	  }
+
+	  nav {
+		border-top-color: rgba(255, 255, 255, 0.2);
+	  }
+
+	  #nav a {
+		color: #e5e7eb;
+	  }
+
+	  section {
+		border-bottom-color: rgba(255, 255, 255, 0.15);
+	  }
+
+	  footer {
+		background: #0f172a;
+		border-top: 1px solid rgba(255, 255, 255, 0.2);
+		color: #94a3b8;
+	  }
+
+	  /* Блоки Markdown */
+	  .markdown-body code {
+		background: #1e293b;
+	  }
+
+	  pre {
+		background: #1e293b;
+	  }
+
+	  .badge {
+		background: rgba(255, 255, 255, 0.15);
+	  }
+
+	  .btn-primary {
+		background: #e2e8f0;
+		color: #111827;
+	  }
+
+	  .btn-ghost {
+		color: #e5e7eb;
+		border-color: rgba(255, 255, 255, 0.2);
+	  }
+
+	  .btn-ghost:hover {
+		background: rgba(255, 255, 255, 0.1);
+	  }
+	}
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      <span>Inventra plugin documentation</span>
+    </div>
+
+    <h1 class="hero-title">Inventra</h1>
+    <p class="hero-subtitle">
+      Spatial inventory plugin
+    </p>
+
+    <div class="hero-buttons">
+      <a
+        class="btn btn-primary"
+        href="https://github.com/ARubyQ/inventra-documentation"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open FAB page
+      </a>
+
+      <a class="btn btn-ghost" href="#intro">
+        Documentation
+      </a>
+    </div>
+
+    <nav>
+      <ul id="nav"></ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container" id="content">
+    <noscript>
+      To display the documentation, you need JavaScript.
+    </noscript>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    © 2025 · Inventra Plugin ·
+    <a href="https://github.com/ARubyQ/inventra-documentation" target="_blank" rel="noopener noreferrer">
+      GitHub
+    </a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+  const sections = [
+    { id: "intro",   title: "Introduction",   file: "docs/intro.md" },
+    { id: "install", title: "Installation",  file: "docs/install.md" },
+    { id: "usage",   title: "Usage", file: "docs/usage.md" },
+    { id: "faq",     title: "FAQ",       file: "docs/faq.md" }
+  ];
+
+  marked.setOptions({
+    breaks: true,
+    gfm: true
+  });
+
+  function renderNav() {
+    const nav = document.getElementById("nav");
+    sections.forEach((section) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = `#${section.id}`;
+      a.textContent = section.title;
+      li.appendChild(a);
+      nav.appendChild(li);
+    });
+  }
+
+  function renderSections() {
+    const container = document.getElementById("content");
+
+    sections.forEach((section) => {
+      const secEl = document.createElement("section");
+      secEl.id = section.id;
+
+      const h2 = document.createElement("h2");
+      h2.textContent = section.title;
+
+      const meta = document.createElement("div");
+      meta.className = "section-meta";
+      meta.textContent = section.file;
+
+      const content = document.createElement("div");
+      content.className = "markdown-body";
+      content.textContent = "Loading…";
+
+      secEl.appendChild(h2);
+      secEl.appendChild(meta);
+      secEl.appendChild(content);
+      container.appendChild(secEl);
+
+      fetch(section.file)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("HTTP " + res.status);
+          }
+          return res.text();
+        })
+        .then((text) => {
+          content.innerHTML = marked.parse(text);
+        })
+        .catch((err) => {
+          console.error("Loading error", section.file, err);
+          content.innerHTML =
+            "<p class='error'>Loading error " +
+            section.file +
+            ".</p>";
+        });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderNav();
+    renderSections();
+  });
+</script>
+</body>
+</html>
