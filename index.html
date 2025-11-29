@@ -361,6 +361,8 @@
     gfm: true
   });
 
+  const sectionCache = {};
+
   function renderNav() {
     const nav = document.getElementById("nav");
     sections.forEach((section) => {
@@ -380,11 +382,8 @@
     });
   }
 
-  function loadSection(id) {
-    const section = sections.find((s) => s.id === id) || sections[0];
-    const container = document.getElementById("content");
-
-    container.innerHTML = "";
+  function renderSection(container, section, html) {
+    container.innerHTML = ""; 
 
     const secEl = document.createElement("section");
     secEl.id = section.id;
@@ -398,14 +397,24 @@
 
     const content = document.createElement("div");
     content.className = "markdown-body";
-    content.textContent = "Loading…";
+    content.innerHTML = html;
 
     secEl.appendChild(h2);
     secEl.appendChild(meta);
     secEl.appendChild(content);
     container.appendChild(secEl);
+  }
+
+  function loadSection(id) {
+    const section = sections.find((s) => s.id === id) || sections[0];
+    const container = document.getElementById("content");
 
     setActiveLink(section.id);
+
+    if (sectionCache[section.id]) {
+      renderSection(container, section, sectionCache[section.id]);
+      return;
+    }
 
     fetch(section.file)
       .then((res) => {
@@ -415,14 +424,17 @@
         return res.text();
       })
       .then((text) => {
-        content.innerHTML = marked.parse(text);
+        const html = marked.parse(text);
+        sectionCache[section.id] = html;         
+        renderSection(container, section, html); 
       })
       .catch((err) => {
         console.error("Loading error", section.file, err);
-        content.innerHTML =
-          "<p class='error'>Loading error " +
-          section.file +
-          ".</p>";
+        renderSection(
+          container,
+          section,
+          "<p class='error'>Loading error " + section.file + ".</p>"
+        );
       });
   }
 
@@ -435,6 +447,7 @@
 
   window.addEventListener("hashchange", () => {
     const id = window.location.hash.replace("#", "");
+    if (!id) return;
     loadSection(id);
   });
 </script>
