@@ -167,6 +167,12 @@
       text-decoration: underline;
     }
 
+    /* активный пункт меню */
+    #nav a.active {
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
     main {
       padding: 2rem 1.4rem 3rem;
     }
@@ -226,63 +232,63 @@
       }
     }
 
-	@media (prefers-color-scheme: dark) {
+    /* dark theme */
+    @media (prefers-color-scheme: dark) {
 
-	  body {
-		color: #e5e7eb;
-		background: #0f172a;
-	  }
+      body {
+        color: #e5e7eb;
+        background: #0f172a;
+      }
 
-	  header {
-		background: radial-gradient(circle at top left, #1e1b4b, #0f172a);
-		color: #f9fafb;
-	  }
+      header {
+        background: radial-gradient(circle at top left, #1e1b4b, #0f172a);
+        color: #f9fafb;
+      }
 
-	  nav {
-		border-top-color: rgba(255, 255, 255, 0.2);
-	  }
+      nav {
+        border-top-color: rgba(255, 255, 255, 0.2);
+      }
 
-	  #nav a {
-		color: #e5e7eb;
-	  }
+      #nav a {
+        color: #e5e7eb;
+      }
 
-	  section {
-		border-bottom-color: rgba(255, 255, 255, 0.15);
-	  }
+      section {
+        border-bottom-color: rgba(255, 255, 255, 0.15);
+      }
 
-	  footer {
-		background: #0f172a;
-		border-top: 1px solid rgba(255, 255, 255, 0.2);
-		color: #94a3b8;
-	  }
+      footer {
+        background: #0f172a;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        color: #94a3b8;
+      }
 
-	  /* Блоки Markdown */
-	  .markdown-body code {
-		background: #1e293b;
-	  }
+      .markdown-body code {
+        background: #1e293b;
+      }
 
-	  pre {
-		background: #1e293b;
-	  }
+      pre {
+        background: #1e293b;
+      }
 
-	  .badge {
-		background: rgba(255, 255, 255, 0.15);
-	  }
+      .badge {
+        background: rgba(255, 255, 255, 0.15);
+      }
 
-	  .btn-primary {
-		background: #e2e8f0;
-		color: #111827;
-	  }
+      .btn-primary {
+        background: #e2e8f0;
+        color: #111827;
+      }
 
-	  .btn-ghost {
-		color: #e5e7eb;
-		border-color: rgba(255, 255, 255, 0.2);
-	  }
+      .btn-ghost {
+        color: #e5e7eb;
+        border-color: rgba(255, 255, 255, 0.2);
+      }
 
-	  .btn-ghost:hover {
-		background: rgba(255, 255, 255, 0.1);
-	  }
-	}
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
   </style>
 </head>
 <body>
@@ -340,10 +346,10 @@
 
 <script>
   const sections = [
-    { id: "intro",   title: "Introduction",   file: "docs/intro.md" },
+    { id: "intro",   title: "Introduction",  file: "docs/intro.md" },
     { id: "install", title: "Installation",  file: "docs/install.md" },
-    { id: "usage",   title: "Usage", file: "docs/usage.md" },
-    { id: "faq",     title: "FAQ",       file: "docs/faq.md" }
+    { id: "usage",   title: "Usage",         file: "docs/usage.md" },
+    { id: "faq",     title: "FAQ",           file: "docs/faq.md" }
   ];
 
   marked.setOptions({
@@ -358,57 +364,74 @@
       const a = document.createElement("a");
       a.href = `#${section.id}`;
       a.textContent = section.title;
+      a.dataset.sectionId = section.id;
       li.appendChild(a);
       nav.appendChild(li);
     });
   }
 
-  function renderSections() {
+  function setActiveLink(id) {
+    document.querySelectorAll("#nav a").forEach((a) => {
+      a.classList.toggle("active", a.dataset.sectionId === id);
+    });
+  }
+
+  function loadSection(id) {
+    const section = sections.find((s) => s.id === id) || sections[0];
     const container = document.getElementById("content");
 
-    sections.forEach((section) => {
-      const secEl = document.createElement("section");
-      secEl.id = section.id;
+    container.innerHTML = ""; // очищаем старый контент
 
-      const h2 = document.createElement("h2");
-      h2.textContent = section.title;
+    const secEl = document.createElement("section");
+    secEl.id = section.id;
 
-      const meta = document.createElement("div");
-      meta.className = "section-meta";
-      meta.textContent = section.file;
+    const h2 = document.createElement("h2");
+    h2.textContent = section.title;
 
-      const content = document.createElement("div");
-      content.className = "markdown-body";
-      content.textContent = "Loading…";
+    const meta = document.createElement("div");
+    meta.className = "section-meta";
+    meta.textContent = section.file;
 
-      secEl.appendChild(h2);
-      secEl.appendChild(meta);
-      secEl.appendChild(content);
-      container.appendChild(secEl);
+    const content = document.createElement("div");
+    content.className = "markdown-body";
+    content.textContent = "Loading…";
 
-      fetch(section.file)
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("HTTP " + res.status);
-          }
-          return res.text();
-        })
-        .then((text) => {
-          content.innerHTML = marked.parse(text);
-        })
-        .catch((err) => {
-          console.error("Loading error", section.file, err);
-          content.innerHTML =
-            "<p class='error'>Loading error " +
-            section.file +
-            ".</p>";
-        });
-    });
+    secEl.appendChild(h2);
+    secEl.appendChild(meta);
+    secEl.appendChild(content);
+    container.appendChild(secEl);
+
+    setActiveLink(section.id);
+
+    fetch(section.file)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("HTTP " + res.status);
+        }
+        return res.text();
+      })
+      .then((text) => {
+        content.innerHTML = marked.parse(text);
+      })
+      .catch((err) => {
+        console.error("Loading error", section.file, err);
+        content.innerHTML =
+          "<p class='error'>Loading error " +
+          section.file +
+          ".</p>";
+      });
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     renderNav();
-    renderSections();
+
+    const initialId = window.location.hash.replace("#", "") || sections[0].id;
+    loadSection(initialId);
+  });
+
+  window.addEventListener("hashchange", () => {
+    const id = window.location.hash.replace("#", "");
+    loadSection(id);
   });
 </script>
 </body>

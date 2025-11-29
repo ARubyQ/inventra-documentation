@@ -1,4 +1,4 @@
-123123123# Heading 1
+# Heading 1
 
 Test **markdown** text for verifying the rendering functionality.  
 This is *italic*, this is **bold**, and this is ***bold italic***.
