@@ -1,0 +1,26 @@
+baseURL: https://your-username.github.io/site/
+languageCode: ru-ru
+title: Inventra
+theme: hextra
+menu:
+  main:
+    - name: Search
+      weight: 1
+      params:
+        type: search
+    - name: Fab
+      weight: 2
+      url: "https://fab.com"
+      params:
+        icon: fab
+
+params:
+  navbar:
+    displayTitle: true
+    displayLogo: true
+    logo:
+      path: images/logo.svg
+      dark: images/logo-dark.svg
+      link: /site/
+      width: 102
+      height: 64
