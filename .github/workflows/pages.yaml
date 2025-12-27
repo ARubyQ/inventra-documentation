@@ -57,7 +57,7 @@ jobs:
         run: |
           hugo \
             --gc --minify \
-            --baseURL "https://${{ github.repository_owner }}.github.io/site/"
+            --baseURL "https://${{ github.repository_owner }}.github.io/inventra-documentation/"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
